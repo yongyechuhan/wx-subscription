@@ -10,6 +10,8 @@ import com.jxyd.wx.utils.PKCS7Encoder;
 import com.jxyd.wx.utils.SHA1Util;
 import com.jxyd.wx.utils.XMLParse;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -17,6 +19,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class WXBizMsgCryptBusi {
     public static Charset CHARSET = Charset.forName("utf-8");
+    private Logger logger = LoggerFactory.getLogger(WXBizMsgCryptBusi.class);
+    private static final String log = "消息加解密--";
     private Base64 base64 = new Base64();
     private byte[] aesKey;
     private String token;
@@ -41,7 +45,7 @@ public class WXBizMsgCryptBusi {
     }
 
     // 生成4个字节的网络字节序
-    byte[] getNetworkBytesOrder(int sourceNumber) {
+    private byte[] getNetworkBytesOrder(int sourceNumber) {
         byte[] orderBytes = new byte[4];
         orderBytes[3] = (byte) (sourceNumber & 0xFF);
         orderBytes[2] = (byte) (sourceNumber >> 8 & 0xFF);
@@ -51,7 +55,7 @@ public class WXBizMsgCryptBusi {
     }
 
     // 还原4个字节的网络字节序
-    int recoverNetworkBytesOrder(byte[] orderBytes) {
+    private int recoverNetworkBytesOrder(byte[] orderBytes) {
         int sourceNumber = 0;
         for (int i = 0; i < 4; i++) {
             sourceNumber <<= 8;
@@ -61,7 +65,7 @@ public class WXBizMsgCryptBusi {
     }
 
     // 随机生成16位字符串
-    String getRandomStr() {
+    private String getRandomStr() {
         String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
         StringBuffer sb = new StringBuffer();
@@ -79,7 +83,7 @@ public class WXBizMsgCryptBusi {
      * @return 加密后base64编码的字符串
      * @throws AesException aes加密失败
      */
-    String encrypt(String randomStr, String text) throws AesException {
+    private String encrypt(String randomStr, String text) throws AesException {
         ByteGroupUtil byteCollector = new ByteGroupUtil();
         byte[] randomStrBytes = randomStr.getBytes(CHARSET);
         byte[] textBytes = text.getBytes(CHARSET);
@@ -114,7 +118,7 @@ public class WXBizMsgCryptBusi {
 
             return base64Encrypted;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(log.concat("加密发生异常"), e);
             throw new AesException(AesException.EncryptAESError);
         }
     }
@@ -126,7 +130,7 @@ public class WXBizMsgCryptBusi {
      * @return 解密得到的明文
      * @throws AesException aes解密失败
      */
-    String decrypt(String text) throws AesException {
+    private String decrypt(String text) throws AesException {
         byte[] original;
         try {
             // 设置解密模式为AES的CBC模式
