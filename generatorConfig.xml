@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry location="E:\home\mysql-connector-java-5.1.38.jar"/>
+    <context id="Mysql" targetRuntime="MyBatis3Simple"
+             defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="TRUE"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://172.16.10.112:3306/ky?useUnicode=true&amp;characterEncoding=utf-8"
+                        userId="root" password="Changingpay#123">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.unionpay.monitor.model"
+                            targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="com.unionpay.monitor.dao" targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <table tableName="t_monitor_templet" domainObjectName="MonitorTemplet"></table>
+    </context>
+</generatorConfiguration>
