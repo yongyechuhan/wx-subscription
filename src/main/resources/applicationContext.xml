@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+	  http://www.springframework.org/schema/util
+	  http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<util:properties id="sysConfig" location="classpath:sysConfig.properties" />
+
+	<aop:aspectj-autoproxy />
+
+	<!-- 自动扫描的包名 ，使Spring支持自动检测组件，如注解的Controller -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.unionpay.monitor" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- 线程池配置 -->
+	<bean id="threadPoolTaskExecutor"
+		  class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- corePoolSize：线程池至少有2个线程是启动的，即使是空闲的也不会关闭。 -->
+		<property name="corePoolSize" value="5" />
+		<!-- maxPoolSize：最大的线程数目，当corePoolSize繁忙时，会创建线程，启动的总的线程数不能大于maxPoolSize -->
+		<property name="maxPoolSize" value="100" />
+		<!-- queueCapacity：queueCapacity： 队列大小，当corePoolSize没有空闲线程的时候，允许queueCapacity个线程任务等待,
+			queueCapacity队列满时,才会在corePoolSize的基础上,maxPoolSize之内进行新的线程的创建! -->
+		<property name="queueCapacity" value="10" />
+		<!-- keepAliveSeconds： 超过这个时间后会将大于corePoolSize的线程关闭 -->
+		<property name="keepAliveSeconds" value="600" />
+		<!-- rejectedExecutionHandler: 线程池对拒绝任务（无线程可用）的处理策略 -->
+		<property name="rejectedExecutionHandler">
+			<!-- AbortPolicy:直接抛出java.util.concurrent.RejectedExecutionException异常 -->
+			<!-- CallerRunsPolicy:主线程直接执行该任务，执行完之后尝试添加下一个任务到线程池中，可以有效降低向线程池内添加任务的速度 -->
+			<!-- DiscardOldestPolicy:抛弃旧的任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->
+			<!-- DiscardPolicy:抛弃当前任务、暂不支持；会导致被丢弃的任务无法再次被执行 -->
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+</beans>
+
+
+

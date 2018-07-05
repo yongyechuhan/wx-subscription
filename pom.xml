@@ -395,7 +395,7 @@
 				<jdbc.password>gzuser</jdbc.password>
 
 				<!-- log4j配置 -->
-				<logback.fileout>/usr/local/proc/tomcat-server/logs/${project.artifactId}.log</logback.fileout>
+				<logback.fileout>/usr/local/apache-tomcat-8.5.16/logs/${project.artifactId}.log</logback.fileout>
 				<log.level>DEBUG</log.level>
 			</properties>
 		</profile>
