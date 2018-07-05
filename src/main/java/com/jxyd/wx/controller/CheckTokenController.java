@@ -1,8 +1,8 @@
 package com.jxyd.wx.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
-import com.alibaba.fastjson.JSON;
 import com.jxyd.wx.domain.WxServerRespInfo;
+import com.jxyd.wx.exception.AesException;
 import com.jxyd.wx.utils.SHA1Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class CheckTokenController {
 
     @ResponseBody
     @RequestMapping("/checkToken.do")
-    private String checkWxServerToken(WxServerRespInfo wxSendInf){
+    private String checkWxServerToken(WxServerRespInfo wxSendInf) throws AesException {
         if(wxSendInf == null){
             logger.error(log.concat("非官方服务器返回，消息可能被篡改"));
             return null;
@@ -38,7 +38,7 @@ public class CheckTokenController {
             return wxSendInf.getEchostr();
         } else {
             logger.error(log.concat("token验证失败，消息可能被篡改"));
-            return null;
+            throw new AesException(AesException.ValidateSignatureError);
         }
     }
 }
