@@ -25,6 +25,26 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+	<!--视图解释器 -->
+	<bean id="viewResolver"
+		  class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="suffix">
+			<value>.ftl</value>
+		</property>
+		<property name="requestContextAttribute" value="rc"></property>
+		<property name="contentType" value="text/html;charset=UTF-8"></property>
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="cache" value="true" />
+	</bean>
+
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="10485760000" />
+		<property name="maxInMemorySize" value="40960" />
+	</bean>
+
 	<!--默认返回json-->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"
 		  p:ignoreDefaultModelOnRedirect="true" >

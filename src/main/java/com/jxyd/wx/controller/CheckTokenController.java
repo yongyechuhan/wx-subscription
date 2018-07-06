@@ -1,6 +1,7 @@
 package com.jxyd.wx.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.jxyd.wx.domain.WxServerRespInfo;
 import com.jxyd.wx.exception.AesException;
 import com.jxyd.wx.utils.SHA1Util;
@@ -26,7 +27,7 @@ public class CheckTokenController {
             logger.error(log.concat("非官方服务器返回，消息可能被篡改"));
             return null;
         }
-
+logger.info(JSON.toJSONString(wxSendInf));
         if(wxSendInf.paramEmptyCheck()){
             logger.error(log.concat("非官方服务器返回，消息可能被篡改"));
             return null;
