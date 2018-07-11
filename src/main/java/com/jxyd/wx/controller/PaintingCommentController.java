@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PaintingCommentController {
     @RequestMapping("/showPaingtingIndex.do")
     public String showPaingtingIndex(){
+        return "painting-list";
+    }
+
+    @RequestMapping("/showPaingtingComment.do")
+    public String showPaingtingComment(){
         return "painting-comment";
     }
 }
