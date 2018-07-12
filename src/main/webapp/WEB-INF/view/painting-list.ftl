@@ -162,8 +162,9 @@
             </li>
         </ul>
 
-        <div id="test" style="position:fixed;right:10px;top:400px">
-            <a href="##" class="am-icon-btn am-primary am-icon-plus am-icon-md"></a>
+        <div style="position:fixed;right:10px;top:400px">
+            <a href="##" class="am-icon-btn am-warning am-icon-plus am-icon-md"
+               onclick="urlDirection('${rc.contextPath}/uploadPaingting.do')"></a>
         </div>
     </body>
 </html>

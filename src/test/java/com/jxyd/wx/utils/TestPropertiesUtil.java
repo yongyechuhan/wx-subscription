@@ -21,7 +21,7 @@ public class TestPropertiesUtil {
 
     @Test
     public void testGetAccessToken(){
-        String token = SecretInfoCache.getToken(PropertyField.ACCESS_TOKEN);
-        logger.info("当前access_token为{}", token);
+        String token = SecretInfoCache.getToken(PropertyField.JSAPI_TICKET);
+        logger.info("当前jsapi_ticket为{}", token);
     }
 }
