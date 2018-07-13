@@ -1,12 +1,17 @@
 package com.jxyd.wx.busi;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jxyd.wx.domain.PicInfForm;
+import com.jxyd.wx.model.PicInfo;
+import com.jxyd.wx.service.PicInfoDaoService;
 import com.jxyd.wx.utils.PropertyField;
 import com.jxyd.wx.utils.SHA1Util;
 import com.jxyd.wx.utils.WxServerReqUtil;
 import com.jxyd.wx.utils.cache.SysConfigCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -23,17 +28,34 @@ public class ServerPaingtingBusi {
 
     private static final String log = "上传图片处理--";
 
+    @Autowired
+    private PicInfoDaoService picInfoDaoService;
+
+    @Value("#{sysConfig.wx_pic_path}")
+    private String picSavePath;
+
+    public boolean savePaingting(PicInfForm picInfForm, String picId, String openId){
+        PicInfo picInfo = new PicInfo();
+        picInfo.setOpenId(openId);
+        picInfo.setPicDesc(picInfForm.getPicDesc());
+        picInfo.setPicName(picInfForm.getPicName());
+        picInfo.setPicId(picId);
+        picInfo.setPicSrc(SysConfigCache.getProp("wx_pic_path").concat(picId));
+
+        return picInfoDaoService.saveUploadPic(picInfo);
+    }
+
     public String downloadPaingtingByServerId(String serverId){
         // 请求服务器
         JSONObject httpRes = WxServerReqUtil.downloadServerPic(serverId);
-        if(!PropertyField.SUCCESS.equals(httpRes.get("respCode"))){
+        if(httpRes == null || !PropertyField.SUCCESS.equals(httpRes.get("respCode"))){
             return PropertyField.FAIL;
         }
 
         InputStream is = (InputStream) httpRes.get("respBody");
-        String picName = SHA1Util.create_nonce_str();
+        String picName = SHA1Util.create_nonce_str().concat("jpg");
         String picSavePath = SysConfigCache.getProp("wx_pic_path");
-        File file = new File(picSavePath);
+        File file = new File(picSavePath.concat(picName));
         FileOutputStream fos = null;
         try{
             if(is == null){

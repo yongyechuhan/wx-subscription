@@ -8,6 +8,7 @@
     <id column="pic_id" jdbcType="VARCHAR" property="picId" />
     <result column="pic_name" jdbcType="VARCHAR" property="picName" />
     <result column="pic_src" jdbcType="VARCHAR" property="picSrc" />
+    <result column="pic_desc" jdbcType="VARCHAR" property="picDesc" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
   </resultMap>

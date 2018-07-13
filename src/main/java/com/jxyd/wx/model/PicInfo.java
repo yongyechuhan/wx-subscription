@@ -23,6 +23,9 @@ public class PicInfo {
     @Column(name = "pic_src")
     private String picSrc;
 
+    @Column(name = "pic_desc")
+    private String picDesc;
+
     /**
      * 微信公开号
      */
@@ -87,6 +90,20 @@ public class PicInfo {
      */
     public void setPicSrc(String picSrc) {
         this.picSrc = picSrc;
+    }
+
+    /**
+     * @return pic_desc
+     */
+    public String getPicDesc() {
+        return picDesc;
+    }
+
+    /**
+     * @param picDesc
+     */
+    public void setPicDesc(String picDesc) {
+        this.picDesc = picDesc;
     }
 
     /**
