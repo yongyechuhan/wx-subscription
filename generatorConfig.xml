@@ -18,22 +18,22 @@
         </plugin>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://172.16.10.112:3306/ky?useUnicode=true&amp;characterEncoding=utf-8"
-                        userId="root" password="Changingpay#123">
+                        connectionURL="jdbc:mysql://192.168.195.128:3306/wx?useUnicode=true&amp;characterEncoding=utf-8"
+                        userId="gzuser" password="gzuser">
         </jdbcConnection>
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.unionpay.monitor.model"
+        <javaModelGenerator targetPackage="com.jxyd.wx.model"
                             targetProject="src/main/java"/>
 
         <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources"/>
 
-        <javaClientGenerator targetPackage="com.unionpay.monitor.dao" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="com.jxyd.wx.dao" targetProject="src/main/java"
                              type="XMLMAPPER"/>
 
-        <table tableName="t_monitor_templet" domainObjectName="MonitorTemplet"></table>
+        <table tableName="pic_info" domainObjectName="PicInfo"></table>
     </context>
 </generatorConfiguration>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxyd.wx.dao.PicInfoMapper">
+  <resultMap id="BaseResultMap" type="com.jxyd.wx.model.PicInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pic_id" jdbcType="VARCHAR" property="picId" />
+    <result column="pic_name" jdbcType="VARCHAR" property="picName" />
+    <result column="pic_src" jdbcType="VARCHAR" property="picSrc" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+  </resultMap>
+</mapper>

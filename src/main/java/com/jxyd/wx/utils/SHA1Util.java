@@ -2,6 +2,7 @@ package com.jxyd.wx.utils;
 
 import com.jxyd.wx.domain.WeixinJDK;
 import com.jxyd.wx.utils.cache.SecretInfoCache;
+import com.jxyd.wx.utils.cache.SysConfigCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,7 @@ public class SHA1Util {
     }
 
     public static WeixinJDK jsApiSign(String url) {
-        String jsapiTicket = SecretInfoCache.getToken(PropertyField.JSAPI_TICKET);
+        String jsapiTicket = SecretInfoCache.getToken(PropertyField.JSAPI_TICKET_NAME);
         String nonce_str = create_nonce_str();
         String timestamp = create_timestamp();
         String string1;
@@ -73,7 +74,7 @@ public class SHA1Util {
         }
 
         WeixinJDK weixinJDK = new WeixinJDK();
-        weixinJDK.setAppId(SecretInfoCache.getAppId());
+        weixinJDK.setAppId(SysConfigCache.getProp(PropertyField.APP_ID_KEY));
         weixinJDK.setNonceStr(nonce_str);
         weixinJDK.setTimestamp(timestamp);
         weixinJDK.setSignature(signature);
@@ -91,7 +92,7 @@ public class SHA1Util {
         return result;
     }
 
-    private static String create_nonce_str() {
+    public static String create_nonce_str() {
         return UUID.randomUUID().toString();
     }
 
